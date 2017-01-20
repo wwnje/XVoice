@@ -28,7 +28,6 @@ public class MainActivity extends UnityPlayerActivity {
     private static String TAG = "MainActivity";
     public SpeechRecognizer mspeech;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
