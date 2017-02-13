@@ -37,8 +37,9 @@ public class MainActivity extends UnityPlayerActivity {
            app/src/main/jniLibs/armeabi-v7a/libmsc.so
            app/libs/Msc.jar
         */
-        SpeechUtility.createUtility(getApplicationContext(), SpeechConstant.APPID +"=587d7c53");
+        SpeechUtility.createUtility(getApplicationContext(), "appid=587d7c53");
     }
+
     public void StartActivity0(String name)
     {
         startActivity(new Intent(this,MainActivity.class));
@@ -56,9 +57,20 @@ public class MainActivity extends UnityPlayerActivity {
         //startActivity(new Intent(this,MainActivity.class));
     }
 
+    public InitListener mInitListener = new InitListener(){
+
+        @Override
+        public void onInit(int i) {
+            Log.d(TAG, "onInit: " );
+            UnityPlayer.UnitySendMessage("Manager", "Result", "init success!");
+        }
+    };
+
+    //开始识别
     public void startRecognizer(){
-        //开始识别
-        Log.d(TAG, "startRecognizer: 1 ");
+        Log.d(TAG, "startRecognizer: startListening ");
+        UnityPlayer.UnitySendMessage("Manager", "Result", "startListening");
+
         mspeech.setParameter(SpeechConstant.DOMAIN, "iat");
         mspeech.setParameter(SpeechConstant.SAMPLE_RATE, "16000");
         mspeech.setParameter(SpeechConstant.LANGUAGE, "zh_cn");
@@ -68,19 +80,12 @@ public class MainActivity extends UnityPlayerActivity {
         mspeech.startListening(mRecognizerListener);
     }
 
-    public InitListener mInitListener = new InitListener(){
 
-        @Override
-        public void onInit(int i) {
-            Log.d(TAG, "onInit: " );
-        }
-    };
 
     public RecognizerListener mRecognizerListener = new RecognizerListener() {
         @Override
         public void onVolumeChanged(int i, byte[] bytes) {
             Log.d(TAG, "onVolumeChanged: "+ i);
-            Toast.makeText(MainActivity.this, i, Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -96,6 +101,7 @@ public class MainActivity extends UnityPlayerActivity {
         @Override
         public void onResult(RecognizerResult recognizerResult, boolean b) {
             Log.d(TAG, recognizerResult.getResultString());
+            UnityPlayer.UnitySendMessage("Manager", "Result", "result:" + recognizerResult.toString());
         }
 
         @Override
@@ -108,6 +114,8 @@ public class MainActivity extends UnityPlayerActivity {
 
         }
     };
+
+
 
     public String ShowDialog(final String _title, final String _content){
 

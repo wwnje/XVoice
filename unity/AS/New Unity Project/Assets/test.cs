@@ -3,7 +3,9 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class test : MonoBehaviour {
+	
     private Text mText;
+	private string showResult = "";
 
     void Start()
     {
@@ -74,19 +76,10 @@ public class test : MonoBehaviour {
         jo.Call("startRecognizer");
     }
 
-    //void OnGUI()
-    //{
-    //    if (GUILayout.Button("OPEN Activity01", GUILayout.Height(100)))
-    //    {
-    //        AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-    //        AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-    //        jo.Call("StartActivity0", "第一个Activity");
-    //    }
-    //    if (GUILayout.Button("OPEN Activity01", GUILayout.Height(100)))
-    //    {
-    //        AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-    //        AndroidJavaObject jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-    //        jo.Call("StartActivity1");
-    //    }
-    //}
+
+	public void Result (string recognizerResult)
+	{  
+		showResult += recognizerResult;  
+		mText.text = showResult;
+	}
 }

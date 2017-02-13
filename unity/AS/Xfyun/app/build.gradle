@@ -18,6 +18,9 @@ android {
     }
 }
 
+
+
+
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
@@ -25,3 +28,13 @@ dependencies {
     compile files('libs/Msc.jar')
     compile files('libs/Sunflower.jar')
 }
+
+task makeJar(type: Copy) {
+    delete 'build/libs/speechrecognizer.jar'
+    from('build/intermediates/bundles/release/')
+    into('build/libs/')
+    include('classes.jar')
+    rename ('classes.jar', 'speechrecognizer.jar')
+}
+
+makeJar.dependsOn(build)
